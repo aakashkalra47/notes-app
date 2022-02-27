@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createNote, deleteNote, editNote } from "../actions";
 import moment from "moment";
-const format = "D MMM YY h:mm a";
+import icons from "../icons/sprite.svg";
+import "./../index.css";
+// const format = "D MMM YY h:mm a";
+const format = "D MMM YY";
 class Note extends Component {
   constructor(props) {
     super(props);
@@ -28,61 +31,123 @@ class Note extends Component {
       content: this.state.content,
     });
   }
+  textAreaAdjust(e) {
+    // element.style.height = "1px";
+    // element.style.height = (25+element.scrollHeight)+"px";
+    e.target.style.height = "inherit";
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  }
+
   render() {
     return (
-      <div className="card" style={{marginBottom:10}}>
-        <div style={{ display: "flex" }} className="card-header">
-          <div style={{ flex: 15 }}>
+      <div
+        className="note"
+        onClick={() => {
+          this.props.toggleShowDetail(this.state.id);
+        }}
+      >
+        <div className="card-header note__header">
+          <div style={{ flex: 1 }}>
             {this.state.editMode ? (
-              <input
-                className="h4"
+              <textarea
+                className="h4 note__input note__title"
                 onChange={this.onChangeValue}
                 name="title"
                 type="text"
+                style={{ width: "100%", overflow: "hidden" }}
                 value={this.state.title}
+                onFocus={this.textAreaAdjust}
+                placeholder="Title"
               />
             ) : (
-              <>
-                <h4 className="card-title"> {this.props.note.title}</h4>
-              </>
+              <h4
+                className="note__title"
+                style={{
+                  wordBreak: "break-all",
+                  hyphens: "auto",
+                  whiteSpace: "pre-wrap",
+                }}
+              >
+                {" "}
+                {this.state.title}
+              </h4>
             )}
           </div>
-          {this.state.editMode ? null : (
-            <div>{moment(this.props.note.createdAt).format(format)}</div>
-          )}
-          <button
-            className={
-              this.state.editMode ? "btn btn-success" : "btn btn-primary"
-            }
-            style={{ flex: 1, margin: "0px 20px" }}
-            onClick={() => {
-              this.setState((state) => ({ editMode: !state.editMode }));
-              if (this.state.editMode) this.edit();
-            }}
-          >
-            {this.state.editMode ? "Save" : "Edit"}
-          </button>
-          <button
-            className="btn btn-danger"
-            style={{ flex: 1, margin: "0px 20px" }}
-            onClick={() => this.ondelete(this.props.note.id)}
-          >
-            Delete
-          </button>
+          <div style={{ marginLeft: "auto", display: "flex" }}>
+            {/* {this.state.editMode ? null : ( */}
+            <div
+              style={{ visibility: this.state.editMode ? "hidden" : "visible" }}
+            >
+              {moment(this.props.note.createdAt).format(format)}
+            </div>
+            {/* )} */}
+            <button
+              className={`${
+                this.state.editMode ? "btn btn-success" : "btn btn-primary"
+              } `}
+              style={{ flex: 1, margin: "0px 10px" }}
+              onClick={() => {
+                if (this.state.editMode) this.edit();
+                this.setState((state) => ({ editMode: !state.editMode }));
+              }}
+            >
+              <svg className="note__icon">
+                <use
+                  xlinkHref={
+                    `${icons}#icon-` +
+                    `${this.state.editMode ? "check" : "edit"}`
+                  }
+                />
+              </svg>
+            </button>
+            <button
+              className="btn btn-danger"
+              style={{ flex: 1, margin: "0px 10px" }}
+              onClick={() => this.ondelete(this.props.note.id)}
+            >
+              <svg className="note__icon">
+                <use xlinkHref={`${icons}#icon-trash`} />
+              </svg>
+            </button>
+          </div>
         </div>
-        <div className="card-body">
+        <div
+          className="card-body note__detail"
+          style={
+            this.props.noteDetailId == this.state.id
+              ? {
+                  height: "100%",
+                  padding: "10px 20px",
+                }
+              : {
+                  height:0,
+                  padding:0,
+                }
+          }
+        >
           <div className="card-text">
             {this.state.editMode ? (
-              <input
-                className="lead"
+              <textarea
+                style={{
+                  width: "100%",
+                  overflowWrap: "break-word",
+                  overflow: "hidden",
+                }}
+                className="lead note__input"
                 onChange={this.onChangeValue}
                 name="content"
                 type="text"
                 value={this.state.content}
+                onFocus={this.textAreaAdjust}
+                placeholder="Take a Note"
               />
             ) : (
-                <p style={{'whiteSpace':'pre-line'}}>{this.state.content}</p>
-              
+              <p
+                style={{ whiteSpace: "pre-line", overflowWrap: "break-word" }}
+                className="lead note__input"
+              >
+                {this.state.content}
+              </p>
             )}
           </div>
         </div>

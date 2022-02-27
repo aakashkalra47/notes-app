@@ -1,12 +1,17 @@
-import CreateNote from "./Components/CreateNote";
+// import CreateNote from "./Components/CreateNote";
 import NotesList from "./Components/NoteList";
-import Filters from './Components/Filters'
+import CreateNote from "./Components/create";
+import Filters from "./Components/Filters";
 function App() {
   return (
-    <div >
-      <div style={{ display: "flex",marginBottom:10 }}>
-        <div style={{flex:2, margin:'0px 20px'}}><CreateNote /></div>
-        <div style={{flex:1,margin:'0px 20px'}}><Filters/></div>
+    <div className="container">
+      <div style={{ display: "flex",flex:1, marginBottom: 10 }}>
+        {/* <div style={{ margin: "0px 20px" }}> */}
+          <CreateNote />
+        {/* </div> */}
+        {/* <div style={{margin: "0px 20px", marginLeft:'auto' }}>
+          <Filters />
+        </div> */}
       </div>
       <div>
         <NotesList />

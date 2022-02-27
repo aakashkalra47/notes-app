@@ -41,9 +41,11 @@
 
 .container {
   margin: auto;
+  background-color: white;
   width: 80%;
+  padding: 25px 50px;
   height: 100vh;
-  box-shadow: var(--box--shado); }
+  box-shadow: var(--shadow-dark); }
 
 :root {
   --color-primary:#eb2f64;

@@ -1,79 +1,73 @@
-import React, { Component } from "react";
-import { applyFilters } from "../actions/index";
-import { connect } from "react-redux";
-import "./../index.css";
-class Filters extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { month: "", year: "" };
-    this.onChangeValue = this.onChangeValue.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+import React, { useState } from 'react'
+import { applyFilters } from '../actions/index'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+const Filters = (props) => {
+  const [state, setState] = useState({ month: '', year: '' })
+  const onChangeValue = (event) => {
+    setState({ ...state, [event.target.name]: event.target.value })
   }
-  onChangeValue = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-  onSubmit(event) {
-    event.preventDefault();
-    this.props.applyFilters(this.state);
+  const onSubmit = (event) => {
+    event.preventDefault()
+    props.applyFilters(state)
   }
-  render() {
-    return (
-      <form
-        style={{ marginTop: 10 }}
-        className="filter"
-        onSubmit={this.onSubmit}
-        style={{ display: "flex", alignItems: "center" }}
+  return (
+    <form
+      className="filter d-flex align-items-center"
+      onSubmit={onSubmit}
+    >
+      <div className="d-flex align-items-center p-2">
+        <h5 className="ml-2">Filters</h5>
+      </div>
+      <div className="d-flex align-items-center">
+        <select
+          className="ml-2 custom-select"
+          name="month"
+          value={state.month}
+          onChange={onChangeValue}
+        >
+          <option value="" disabled>
+            Month
+          </option>
+          <option value="1">Jan</option>
+          <option value="2">Feb</option>
+          <option value="3">Mar</option>
+          <option value="4">Apr</option>
+          <option value="5">May</option>
+          <option value="6">Jun</option>
+          <option value="7">Jul</option>
+          <option value="8">Aug</option>
+          <option value="9">Sep</option>
+          <option value="10">Oct</option>
+          <option value="11">Nov</option>
+          <option value="12">Dec</option>
+        </select>
+      </div>
+      <div
+        className="d-flex align-items-center ml-2"
       >
         <div>
-          <h5 style={{ marginLeft: 10 }}>Filters</h5>
+          <input
+           className="ml-3 input-field"
+            type="number"
+            name="year"
+            value={state.year}
+            onChange={onChangeValue}
+            placeholder="year"
+            min="0"
+            max="9999"
+          />
         </div>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <select
-            style={{ marginLeft: 10}}
-            name="month"
-            value={this.state.month}
-            onChange={this.onChangeValue}
-          >
-            <option value="" disabled>
-              Month
-            </option>
-            <option value="1">Jan</option>
-            <option value="2">Feb</option>
-            <option value="3">Mar</option>
-            <option value="4">Apr</option>0000
-            <option value="5">May</option>
-            <option value="6">Jun</option>
-            <option value="7">Jul</option>
-            <option value="8">Aug</option>
-            <option value="9">Sep</option>
-            <option value="10">Oct</option>
-            <option value="11">Nov</option>
-            <option value="12">Dec</option>
-          </select>
+        <div className="ml-2">
+          <button className="btn btn-primary" type="submit">
+            Apply
+          </button>
         </div>
-        <div
-          style={{ marginLeft: "10px", display: "flex", alignItems: "center" }}
-        >
-          <div>
-            <input
-              style={{ marginLeft: 10,width:'4em' }}
-              type="number"
-              name="year"
-              value={this.state.year}
-              onChange={this.onChangeValue}
-              placeholder="year"
-              min="0"
-              max="9999"
-            />
-          </div>
-          <div style={{ marginLeft: "10px" }}>
-            <button className="btn btn-primary" type="submit">
-              Apply
-            </button>
-          </div>
-        </div>
-      </form>
-    );
-  }
+      </div>
+    </form>
+  )
 }
-export default connect(null, { applyFilters })(Filters);
+Filters.propTypes = {
+  applyFilters: PropTypes.func.isRequired
+}
+export default connect(null, { applyFilters })(Filters)

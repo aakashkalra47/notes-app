@@ -1,16 +1,20 @@
 import React from 'react'
 import NotesList from './Components/NoteList'
-import CreateNote from './Components/create'
+import Toolbar from './Components/Toolbar'
+import Modal from './Components/Modal'
 function App () {
   return (
+    <>
+    <Modal />
     <div className="container">
       <div style={{ display: 'flex', flex: 1, marginBottom: 10 }}>
-          <CreateNote />
+          <Toolbar />
       </div>
       <div>
         <NotesList />
       </div>
     </div>
+    </>
   )
 }
 

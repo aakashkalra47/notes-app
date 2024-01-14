@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { applyFilters } from '../actions/index'
+import { applyFilters } from '../actions/notesAction'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 const Filters = (props) => {

@@ -1,17 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Note from './Note'
 import PropTypes from 'prop-types'
 const Notes = (props) => {
-  const [state, setState] = useState({
-    noteDetailId: null
-  })
-  const toggleShowDetail = (id) => {
-    setState({ noteDetailId: id })
-  }
   const { notes, filters } = props
   return (
-    <div className="note-list">
+    <div className="d-flex flex-wrap">
       {Object.keys(notes)
         .filter((note) => {
           let yearMatch = true
@@ -27,13 +21,11 @@ const Notes = (props) => {
           }
           return yearMatch && monthMatch
         })
-        .map((note) => {
+        .map((noteId) => {
           return (
             <Note
-              key={note}
-              note={notes[note]}
-              toggleShowDetail={toggleShowDetail}
-              noteDetailId={state.noteDetailId}
+              key={noteId}
+              note={notes[noteId]}
             />
           )
         })}
@@ -41,11 +33,11 @@ const Notes = (props) => {
   )
 }
 Notes.propTypes = {
-  notes: PropTypes.array.isRequired,
-  filters: {
+  notes: PropTypes.object.isRequired,
+  filters: PropTypes.shape({
     month: PropTypes.number,
     year: PropTypes.number
-  }
+  })
 }
 export default connect((state) => {
   return { notes: state.notes, filters: state.filters }

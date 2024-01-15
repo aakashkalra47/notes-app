@@ -1,25 +1,25 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { sortDescending, sortAscending } from '../actions/notesAction'
-import { setModalState } from '../actions/modalActions'
+import { useDispatch } from 'react-redux'
+import { sortDescending, sortAscending } from '../Reducers/NotesReducer'
+import { setModalState } from '../Reducers/modalReducer'
 import Filters from './Filters'
-import PropTypes from 'prop-types'
 
-const Toolbar = (props) => {
+const Toolbar = () => {
+  const dispatch = useDispatch()
   const sortAscendingOrder = () => {
-    props.sortAscending()
+    dispatch(sortAscending())
   }
   const sortDescendingOrder = () => {
-    props.sortDescending()
+    dispatch(sortDescending())
   }
   const openNote = () => {
-    props.setModalState({
+    dispatch(setModalState({
       isOpen: true,
       data: {
         content: '',
         title: ''
       }
-    })
+    }))
   }
   return (
     <div style={{ marginTop: 10, border: 'none' }} className="note">
@@ -53,11 +53,4 @@ const Toolbar = (props) => {
     </div>
   )
 }
-Toolbar.propTypes = {
-  sortDescending: PropTypes.func.isRequired,
-  sortAscending: PropTypes.func.isRequired,
-  setModalState: PropTypes.func.isRequired
-}
-export default connect(null, { setModalState, sortDescending, sortAscending })(
-  Toolbar
-)
+export default Toolbar

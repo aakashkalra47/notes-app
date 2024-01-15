@@ -1,16 +1,18 @@
-export default function reducer (state = {}, action) {
-  switch (action.type) {
-    case 'CREATE_NOTE':
-      return { [action.payload.id]: action.payload, ...state }
-    case 'DELETE_NOTE':
-      delete state[action.payload]
-      return { ...state }
-    case 'EDIT_NOTE':
-      return {
-        ...state,
-        [action.payload.id]: { ...state[action.payload.id], ...action.payload }
-      }
-    case 'SORT_ASCE':{
+import { createSlice } from '@reduxjs/toolkit'
+const notesSlice = createSlice({
+  name: 'notes',
+  initialState: {},
+  reducers: {
+    createNote: (state, { payload }) => {
+      state[payload.id] = payload
+    },
+    deleteNote: (state, { payload }) => {
+      delete state[payload]
+    },
+    editNote: (state, { payload }) => {
+      state[payload.id] = { ...state[payload.id], ...payload }
+    },
+    sortAscending: (state) => {
       const ordered = Object.keys(state).sort((a, b) => {
         return state[a].createdAt - state[b].createdAt
       })
@@ -18,9 +20,9 @@ export default function reducer (state = {}, action) {
       ordered.forEach((key) => {
         ascending[key] = state[key]
       })
-      return ascending
-    }
-    case 'SORT_DESC':{
+      return { ...ascending }
+    },
+    sortDescending: (state) => {
       const order = Object.keys(state).sort((a, b) => {
         return state[b].createdAt - state[a].createdAt
       })
@@ -28,9 +30,10 @@ export default function reducer (state = {}, action) {
       order.forEach((key) => {
         descending[key] = state[key]
       })
-      return descending
+      return { ...descending }
     }
-    default:
-      return state
+
   }
-}
+})
+export const { createNote, deleteNote, editNote, sortAscending, sortDescending } = notesSlice.actions
+export default notesSlice.reducer

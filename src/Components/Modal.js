@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { createNote, editNote } from '../actions/notesAction'
+import { createNote, editNote } from '../Reducers/NotesReducer'
+import { setModalState } from '../Reducers/modalReducer'
 import { TextareaAutosize, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
-import { setModalState } from '../actions/modalActions'
-const Modal = (props) => {
+const Modal = () => {
   const initialNote = {
     title: '',
     content: ''
   }
-  const { isOpen = false, data = {} } = props.modal
+  const { isOpen = false, data = {} } = useSelector((state) => state.modal)
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(isOpen)
   const [state, setState] = useState(initialNote)
   useEffect(() => {
@@ -25,12 +25,12 @@ const Modal = (props) => {
   const onSubmit = (event) => {
     event.preventDefault()
     state.id
-      ? props.editNote({ id: state.id, title: state.title, content: state.content })
-      : props.createNote({ ...state, id: uuidv4(), createdAt: new Date() })
+      ? dispatch(editNote({ id: state.id, title: state.title, content: state.content }))
+      : dispatch(createNote({ ...state, id: uuidv4(), createdAt: new Date() }))
     handleClose()
   }
   const handleClose = () => {
-    props.setModalState({ isOpen: false, data: initialNote })
+    dispatch(setModalState({ isOpen: false, data: initialNote }))
   }
   return (
         <Dialog open={open}
@@ -66,19 +66,4 @@ const Modal = (props) => {
         </Dialog>
   )
 }
-Modal.propTypes = {
-  modal: PropTypes.shape({
-    isOpen: PropTypes.bool.isRequired,
-    data: PropTypes.shape({
-      title: PropTypes.string,
-      content: PropTypes.string,
-      id: PropTypes.string
-    })
-  }),
-  createNote: PropTypes.func.isRequired,
-  editNote: PropTypes.func.isRequired,
-  setModalState: PropTypes.func.isRequired
-}
-export default connect(({ modal }) => ({ modal }), { createNote, setModalState, editNote })(
-  Modal
-)
+export default Modal

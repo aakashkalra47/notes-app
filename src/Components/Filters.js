@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { applyFilters } from '../actions/notesAction'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-const Filters = (props) => {
+import { applyFilters } from '../Reducers/filterReducer'
+import { useDispatch } from 'react-redux'
+const Filters = () => {
   const [state, setState] = useState({ month: '', year: '' })
   const onChangeValue = (event) => {
     setState({ ...state, [event.target.name]: event.target.value })
   }
+  const dispatch = useDispatch()
   const onSubmit = (event) => {
     event.preventDefault()
-    props.applyFilters(state)
+    dispatch(applyFilters(state))
   }
   return (
     <form
@@ -67,7 +67,4 @@ const Filters = (props) => {
     </form>
   )
 }
-Filters.propTypes = {
-  applyFilters: PropTypes.func.isRequired
-}
-export default connect(null, { applyFilters })(Filters)
+export default Filters

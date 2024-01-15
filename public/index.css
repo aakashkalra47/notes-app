@@ -33,7 +33,7 @@ body {
 .container {
   margin: auto;
   position:'relative';
-  background-color: white;
+  background-color: grey;
   width: 80%;
   margin-top: 50px;
   margin-bottom: 40px 0;
@@ -89,14 +89,4 @@ code {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-}
-.opened{
-  z-index: 1;
-  height: 300px;
-  width: 300px;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-  background-color: red;
 }

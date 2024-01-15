@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { deleteNote } from '../actions/notesAction'
-import { setModalState } from '../actions/modalActions'
+import { useDispatch } from 'react-redux'
+import { deleteNote } from '../Reducers/NotesReducer'
+import { setModalState } from '../Reducers/modalReducer'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import { Card, CardHeader, CardContent, Typography, IconButton, Menu, MenuItem } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 const Note = (props) => {
   const format = 'D MMM YY'
-  const {
-    note,
-    deleteNote
-  } = props
+  const { note } = props
   const [anchorEl, setAnchorEl] = useState(null)
+  const dispatch = useDispatch()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -20,18 +18,18 @@ const Note = (props) => {
     setAnchorEl(null)
   }
   const onDelete = () => {
-    deleteNote(note.id)
+    dispatch(deleteNote(note.id))
     handleClose()
   }
   const onEdit = () => {
-    props.setModalState({
+    dispatch(setModalState({
       isOpen: true,
       data: {
         id: note.id,
         title: note.title,
         content: note.content
       }
-    })
+    }))
     handleClose()
   }
   return (
@@ -77,8 +75,6 @@ const Note = (props) => {
   )
 }
 Note.propTypes = {
-  deleteNote: PropTypes.func.isRequired,
-  note: PropTypes.any,
-  setModalState: PropTypes.func.isRequired
+  note: PropTypes.any
 }
-export default connect(null, { deleteNote, setModalState })(Note)
+export default Note

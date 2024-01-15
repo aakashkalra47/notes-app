@@ -1,9 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Note from './Note'
-import PropTypes from 'prop-types'
-const Notes = (props) => {
-  const { notes, filters } = props
+const Notes = () => {
+  const notes = useSelector(state => state.notes)
+  const filters = useSelector(state => state.filters)
   return (
     <div className="d-flex flex-wrap">
       {Object.keys(notes)
@@ -32,13 +32,4 @@ const Notes = (props) => {
     </div>
   )
 }
-Notes.propTypes = {
-  notes: PropTypes.object.isRequired,
-  filters: PropTypes.shape({
-    month: PropTypes.number,
-    year: PropTypes.number
-  })
-}
-export default connect((state) => {
-  return { notes: state.notes, filters: state.filters }
-})(Notes)
+export default Notes

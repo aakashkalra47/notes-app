@@ -10,7 +10,7 @@ const notesSlice = createSlice({
       return state.filter(note => note.id !== payload)
     },
     editNote: (state, { payload }) => {
-      return state.map(note => note.id === payload.id ? payload : note)
+      return state.map(note => note.id === payload.id ? { ...note,...payload } : note)
     },
     sortAscending: (state) => {
       return state.sort((a, b) => a.createdAt - b.createdAt)

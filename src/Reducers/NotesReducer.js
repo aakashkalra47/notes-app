@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-// import { current, enableES5 } from 'immer'
-// enableES5()
 const notesSlice = createSlice({
   name: 'notes',
   initialState: [],

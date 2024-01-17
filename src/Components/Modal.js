@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-import { createNote, editNote } from '../Reducers/notesReducer'
-import { setModalState } from '../Reducers/modalReducer'
+import { createNote, editNote } from '../Reducers/notesSlice'
+import { setModalState } from '../Reducers/modalSlice'
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 const Modal = () => {
   const initialNote = {

@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import notesReducer from './notesReducer'
-import filterReducer from './filterReducer'
-import modalReducer from './modalReducer'
+import notesReducer from './notesSlice'
+import filterReducer from './filterSlice'
+import modalReducer from './modalSlice'
 const store = configureStore({
   reducer: {
     notes: notesReducer,

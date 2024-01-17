@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { applyFilters } from '../Reducers/filterReducer'
+import { applyFilters } from '../Reducers/filterSlice'
 import { useDispatch } from 'react-redux'
 import { IconButton, Button, Popper, Box, Select, MenuItem, TextField, FormControl, InputLabel, Paper } from '@mui/material'
 import { FilterAlt } from '@mui/icons-material'

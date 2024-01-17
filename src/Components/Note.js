@@ -1,25 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
-import { deleteNote } from '../Reducers/NotesReducer'
+import { deleteNote } from '../Reducers/notesReducer'
 import { setModalState } from '../Reducers/modalReducer'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import { Card, CardHeader, CardContent, Typography, IconButton, Menu, MenuItem } from '@mui/material'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { Card, CardHeader, CardContent, Typography, IconButton } from '@mui/material'
+import ModeEditIcon from '@mui/icons-material/ModeEdit'
+import DeleteIcon from '@mui/icons-material/Delete'
 const Note = (props) => {
   const format = 'D MMM YY'
   const { note } = props
-  const [anchorEl, setAnchorEl] = useState(null)
   const dispatch = useDispatch()
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
   const onDelete = () => {
     dispatch(deleteNote(note.id))
-    handleClose()
   }
   const onEdit = () => {
     dispatch(setModalState({
@@ -30,48 +23,36 @@ const Note = (props) => {
         content: note.content
       }
     }))
-    handleClose()
   }
   return (
-    <Card sx={{ height: 200 }} className='col-4 pa-0'>
-      <CardHeader
-        style={{
-          wordBreak: 'break-all',
-          hyphens: 'auto',
-          whiteSpace: 'pre-wrap'
-        }}
-        action={
-          <>
-            <IconButton color='primary' onClick={handleClick} >
-              <MoreVertIcon/>
-            </IconButton>
-            <Menu
-              open={Boolean(anchorEl)}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
-              }}
-              >
-              <MenuItem onClick={onEdit}>Edit</MenuItem>
-              <MenuItem onClick={onDelete}>Delete</MenuItem>
-            </Menu>
-          </>
-        }
-        title={note.title}
-        subheader={moment(note.createdAt).format(format)}
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {note.content}
-        </Typography>
-      </CardContent>
-    </Card>
+    <div className='p-1 col-4'>
+      <Card sx={{ height: 200 }}>
+        <CardHeader
+          style={{
+            wordBreak: 'break-all',
+            hyphens: 'auto',
+            whiteSpace: 'pre-wrap'
+          }}
+          action={
+            <>
+              <IconButton color='primary' onClick={onEdit}>
+                <ModeEditIcon />
+              </IconButton>
+              <IconButton color='primary' onClick={onDelete}>
+                <DeleteIcon />
+              </IconButton>
+            </>
+          }
+          title={note.title}
+          subheader={moment(note.createdAt).format(format)}
+        />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            {note.content}
+          </Typography>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
 Note.propTypes = {

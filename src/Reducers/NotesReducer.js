@@ -1,38 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit'
+// import { current, enableES5 } from 'immer'
+// enableES5()
 const notesSlice = createSlice({
   name: 'notes',
-  initialState: {},
+  initialState: [],
   reducers: {
     createNote: (state, { payload }) => {
-      state[payload.id] = payload
+      return [payload, ...state]
     },
     deleteNote: (state, { payload }) => {
-      delete state[payload]
+      return state.filter(note => note.id !== payload)
     },
     editNote: (state, { payload }) => {
-      state[payload.id] = { ...state[payload.id], ...payload }
+      return state.map(note => note.id === payload.id ? payload : note)
     },
     sortAscending: (state) => {
-      const ordered = Object.keys(state).sort((a, b) => {
-        return state[a].createdAt - state[b].createdAt
-      })
-      const ascending = {}
-      ordered.forEach((key) => {
-        ascending[key] = state[key]
-      })
-      return { ...ascending }
+      return state.sort((a, b) => a.createdAt - b.createdAt)
     },
     sortDescending: (state) => {
-      const order = Object.keys(state).sort((a, b) => {
-        return state[b].createdAt - state[a].createdAt
-      })
-      const descending = {}
-      order.forEach((key) => {
-        descending[key] = state[key]
-      })
-      return { ...descending }
+      return state.sort((a, b) => b.createdAt - a.createdAt)
     }
-
   }
 })
 export const { createNote, deleteNote, editNote, sortAscending, sortDescending } = notesSlice.actions

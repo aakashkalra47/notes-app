@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import notesReducer from './NotesReducer'
+import notesReducer from './notesReducer'
 import filterReducer from './filterReducer'
 import modalReducer from './modalReducer'
 const store = configureStore({

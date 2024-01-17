@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-import { createNote, editNote } from '../Reducers/NotesReducer'
+import { createNote, editNote } from '../Reducers/notesReducer'
 import { setModalState } from '../Reducers/modalReducer'
-import { TextareaAutosize, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 const Modal = () => {
   const initialNote = {
     title: '',
@@ -36,26 +36,29 @@ const Modal = () => {
         <Dialog open={open}
             onClose={handleClose}
         >
-            <DialogTitle>{state.id ? 'Update Note' : 'Add a note'}</DialogTitle>
+            <DialogTitle style={{ color: 'grey' }}>{state.id ? 'Update Note' : 'Add a note'}</DialogTitle>
             <DialogContent>
-                <TextareaAutosize
-                    className='w-100'
+                <TextField
+                    fullWidth
+                    multiline
+                    className='my-2'
                     onChange={onChangeValue}
-                    minRows={2}
-                    size="lg"
-                    variant="plain"
+                    rows={2}
+                    color='grey'
+                    variant="outlined"
                     name="title"
                     value={state.title}
-                    placeholder="Title"
+                    placeholder="Title.."
                 />
-                <TextareaAutosize
-                    className='w-100'
+                <TextField
+                    multiline
+                    fullWidth
                     onChange={onChangeValue}
-                    minRows={4}
-                    size="lg"
+                    rows={4}
+                    color='grey'
                     name="content"
-                    variant="plain"
-                    placeholder="Take a Note"
+                    variant="outlined"
+                    placeholder="Take a Note..."
                     value={state.content}
                 />
             </DialogContent>

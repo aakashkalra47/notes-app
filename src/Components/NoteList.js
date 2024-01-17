@@ -6,29 +6,29 @@ const Notes = () => {
   const filters = useSelector(state => state.filters)
   return (
     <div className="d-flex flex-wrap">
-      {Object.keys(notes)
-        .filter((note) => {
+      {
+        notes.filter((note) => {
           let yearMatch = true
           let monthMatch = true
           if (filters.year) {
             yearMatch =
-              notes[note].createdAt.getFullYear() === parseInt(filters.year)
+              note.createdAt.getFullYear() === parseInt(filters.year)
           }
           if (filters.month) {
             monthMatch =
-              notes[note].createdAt.getMonth() ===
+              note.createdAt.getMonth() ===
               parseInt(filters.month) - 1
           }
           return yearMatch && monthMatch
         })
-        .map((noteId) => {
-          return (
+          .map((note) => {
+            return (
             <Note
-              key={noteId}
-              note={notes[noteId]}
+              key={note.id}
+              note={note}
             />
-          )
-        })}
+            )
+          })}
     </div>
   )
 }

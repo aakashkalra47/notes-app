@@ -1,9 +1,11 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { sortDescending, sortAscending } from '../Reducers/NotesReducer'
+import { sortDescending, sortAscending } from '../Reducers/notesReducer'
 import { setModalState } from '../Reducers/modalReducer'
 import Filters from './Filters'
-
+import { Button, IconButton } from '@mui/material'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 const Toolbar = () => {
   const dispatch = useDispatch()
   const sortAscendingOrder = () => {
@@ -22,29 +24,29 @@ const Toolbar = () => {
     }))
   }
   return (
-    <div style={{ marginTop: 10, border: 'none' }} className="note">
+    <div style={{ marginTop: 10 }} className="w-100">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <button
-            className="btn btn-primary"
+          <Button
+            variant="contained"
             onClick={openNote}
           >
             Take a Note
-          </button>
-          <button
+          </Button>
+          <IconButton
+            color='primary'
             style={{ marginLeft: '10px' }}
-            className="btn btn-primary"
             onClick={sortAscendingOrder}
           >
-            &uarr;{' '}
-          </button>
-          <button
+            <ArrowUpwardIcon/>
+          </IconButton>
+          <IconButton
+            color='primary'
             style={{ marginLeft: 10 }}
-            className="btn btn-primary"
             onClick={sortDescendingOrder}
           >
-            &darr;{' '}
-          </button>
+            <ArrowDownwardIcon/>
+          </IconButton>
         </div>
         <div>
           <Filters />
